@@ -3,4 +3,4 @@ semiteproject
 
 Semite PHP Framework
 
-New PHP Framework co,img soon
+New PHP Framework coming soon
