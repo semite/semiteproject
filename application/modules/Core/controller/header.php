@@ -19,7 +19,7 @@ if (!defined('_ENGINE'))
 // ------------------------------------------------------------------------
 
 /**
- * Semite home Class
+ * Semite header Class
  *
  * 
  *
@@ -31,23 +31,17 @@ if (!defined('_ENGINE'))
  */
 
 /**
- * Description of home
+ * Description of header
  *
  * @author ahmet
  */
-class Core_ControllerHome extends Controller{
+class Core_ControllerHeader extends Controller{
     
-    public function index(){
+    protected function index(){
         
+        $this->template = 'core/home/header.tpl';
         
-        $this->template = 'core/home/home.tpl';
-        
-        $this->children = array(
-            'core/header',
-            'core/footer'
-        );
-        
-        $this->response->setOutput($this->render());
+        $this->render();
     }
 }
 

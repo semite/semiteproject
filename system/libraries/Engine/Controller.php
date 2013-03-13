@@ -50,7 +50,7 @@ abstract class Controller {
         
                
         $this->registry = $registry;
-        
+                       
     }
 
     public function __get($key) {
@@ -94,13 +94,13 @@ abstract class Controller {
     }
 
     protected function render() {
-
+        
         $parts = explode('/', str_replace('../', '', (string) $this->template));
 
         $this->template = ucfirst($parts[0]) . DS . 'views' . DS . (isset($parts[1]) ? $parts[1] : 'home') . DS . (isset($parts[2]) ? $parts[2] : 'index');
                
         $this->run_bootstrap($parts);
-
+       
         foreach ($this->children as $child) {
             $this->data[basename($child)] = $this->getChild($child);
         }
