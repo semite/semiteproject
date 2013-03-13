@@ -38,18 +38,15 @@ if (!defined('_ENGINE'))
 abstract class Bootstrap {
     
     abstract function init();
-
-    protected $registry;
-    protected $module;
-    protected $controller;
-    protected $file;
+    
+    protected $plugins = array();
 
     public function __construct($registry,$route) {
-
         $this->registry = $registry;
-        $this->module = (isset($route[0]) ? ucfirst($route[0]) : 'Core');
-        $this->controller = (isset($route[1]) ? $route[1] : 'home');
-        $this->file = $this->module = (isset($route[2]) ? $route[2] : 'index');
+    }
+    
+    protected function registerPlugins(){
+        
     }
 }
 
