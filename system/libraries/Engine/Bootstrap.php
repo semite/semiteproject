@@ -37,6 +37,8 @@ if (!defined('_ENGINE'))
  */
 abstract class Bootstrap {
     
+    abstract function init();
+
     protected $registry;
     protected $module;
     protected $controller;

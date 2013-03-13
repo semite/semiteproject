@@ -37,8 +37,7 @@ if (!defined('_ENGINE'))
  */
 class Core_Bootstrap extends Bootstrap{
     
-    static public function init(){
-        echo __METHOD__;
+    public function init(){
     }
 }
 
