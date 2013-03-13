@@ -19,7 +19,7 @@ if (!defined('_ENGINE'))
 // ------------------------------------------------------------------------
 
 /**
- * Semite home Class
+ * Semite Setting Class
  *
  * 
  *
@@ -31,28 +31,18 @@ if (!defined('_ENGINE'))
  */
 
 /**
- * Description of home
+ * Description of Setting
  *
  * @author ahmet
  */
-class Core_ControllerHome extends Controller{
+class Core_ModelSetting extends Model{
     
-    public function index(){
+    public function getSettings(){
+        $settings = $this->db->query("SELECT * FROM ".DB_PREFIX."core_setting");
         
-        $this->load->model('core/setting');
+        return $settings;
         
-        $settings = $this->model_core_setting->getSettings();
         
-        $this->data['settings'] = $settings;
-        
-        $this->template = 'core/home/home.tpl';
-        
-        $this->children = array(
-            'core/header',
-            'core/footer',
-        );
-        
-        $this->response->setOutput($this->render());
     }
 }
 

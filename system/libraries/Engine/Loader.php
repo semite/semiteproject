@@ -74,8 +74,11 @@ final class Loader {
     }
 
     public function model($model) {
-        $file = APPLICATION_PATH_MOD.DS . 'model'.DS . $model . '.php';
-        $class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
+        $model_route = explode('/', str_replace('../', '', (string)$model));
+        
+        $file = APPLICATION_PATH_MOD.DS.  ucfirst($model_route[0]).DS . 'model'.DS . ucfirst($model_route[1]) . '.php';
+        
+        $class = ucfirst($model_route[0]).'_Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model_route[1]);
 
         if (file_exists($file)) {
             include_once($file);
