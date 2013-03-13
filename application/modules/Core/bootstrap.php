@@ -38,6 +38,7 @@ if (!defined('_ENGINE'))
 class Core_Bootstrap extends Bootstrap{
     
     public function init(){
+        
     }
 }
 
