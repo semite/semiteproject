@@ -98,8 +98,7 @@ abstract class Controller {
         $parts = explode('/', str_replace('../', '', (string) $this->template));
 
         $this->template = ucfirst($parts[0]) . DS . 'views' . DS . (isset($parts[1]) ? $parts[1] : 'home') . DS . (isset($parts[2]) ? $parts[2] : 'index');
-               
-        $this->run_bootstrap($parts);
+              
        
         foreach ($this->children as $child) {
             $this->data[basename($child)] = $this->getChild($child);
@@ -123,30 +122,6 @@ abstract class Controller {
         }
     }
 
-    protected function run_bootstrap($parts) {
-
-
-        $bootstrap_file = APPLICATION_PATH_MOD . DS . ucfirst($parts[0]) . DS . 'bootstrap' . EXT;
-
-        if (file_exists($bootstrap_file)) {
-
-            require_once $bootstrap_file;
-
-            $class = ucfirst($parts[0]) . '_Bootstrap';
-
-            $bootstrap = new $class($this->registry,$parts);
-
-            $methods = get_class_methods($class);
-
-            foreach ($methods as $method) {
-                if ($method =='__construct') {
-                    continue;
-                } else {
-                    $bootstrap->$method();
-                }
-            }
-        }
-    }
 
 }
 
