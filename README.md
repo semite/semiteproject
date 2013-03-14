@@ -1,6 +1,6 @@
-semiteproject
+Semite Project
 =============
 
 Semite PHP Framework
 
-New PHP Framework coming soon
+
