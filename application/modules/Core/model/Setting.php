@@ -37,12 +37,9 @@ if (!defined('_ENGINE'))
  */
 class Core_ModelSetting extends Model{
     
-    public function getSettings(){
-        $settings = $this->db->query("SELECT * FROM ".DB_PREFIX."core_setting");
-        
-        return $settings;
-        
-        
+
+    public function getValue(){
+        return true;
     }
 }
 
