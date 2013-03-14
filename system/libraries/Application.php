@@ -66,7 +66,7 @@ class Application {
 
         // Error Reporting
         error_reporting(E_ALL);
-        
+
         // Registry
         $this->registry = $registry = new Registry();
 
@@ -119,7 +119,7 @@ class Application {
                                 $application_env ? $application_env :
                                         'production'
                         )));
-        
+
         $this->error_log = $config->get('config_error_log');
 
         function error_handler($errno, $errstr, $errfile, $errline) {
@@ -143,21 +143,21 @@ class Application {
             }
 
 
-                if (defined('APPLICATION_ENV')) {
-                    switch (APPLICATION_ENV) {
-                        case 'development':
-                            echo '<b>' . $error . '</b>: ' . $errstr . ' in <b>' . $errfile . '</b> on line <b>' . $errline . '</b>';
-                            break;
+            if (defined('APPLICATION_ENV')) {
+                switch (APPLICATION_ENV) {
+                    case 'development':
+                        echo '<b>' . $error . '</b>: ' . $errstr . ' in <b>' . $errfile . '</b> on line <b>' . $errline . '</b>';
+                        break;
 
-                        case 'testing':
-                        case 'production':
-                            error_reporting(0);
-                            break;
+                    case 'testing':
+                    case 'production':
+                        error_reporting(0);
+                        break;
 
-                        default:
-                            exit('The application environment is not set correctly.');
-                    }
+                    default:
+                        exit('The application environment is not set correctly.');
                 }
+            }
 
 //            if ($this->error_log) {
 //                $log->write('PHP ' . $error . ':  ' . $errstr . ' in ' . $errfile . ' on line ' . $errline);
@@ -239,46 +239,70 @@ class Application {
         $loader->library('Document');
         $document = new Document();
         $registry->set('document', $document);
-        
-               
-        
     }
 
     public function _run() {
         // Error Handler
         set_error_handler('error_handler');
-        
+
         // Response
         $response = new Response();
         $response->addHeader('Content-Type: text/html; charset=utf-8');
         $response->setCompression($this->config->get('config_compression'));
-        $this->registry->set('response', $response); 
-        
+        $this->registry->set('response', $response);
+
         // Front Controller 
         $controller = new Front($this->registry);
-        
+
         // SEO URL's
-        $controller->addPreAction(new Action('core/seo_url'));	
+        $controller->addPreAction(new Action('core/seo_url'));
 
         // Maintenance Mode
         $controller->addPreAction(new Action('core/maintenance'));
 
         // Router
         if (isset($this->request->get['route'])) {
-                $action = new Action($this->request->get['route']);
+            $action = new Action($this->request->get['route']);
         } else {
-                $action = new Action('core/home');
+            $action = new Action('core/home');
         }
+
+        $this->bootstrap($action);
 
         // Dispatch
         $controller->dispatch($action, new Action('core/error'));
 
         // Output
         $response->output();
+    }
 
+    public function bootstrap($action) {
+
+
+        $bootstrap_file = APPLICATION_PATH_MOD . DS . ucfirst($action->getModule()) . DS . 'bootstrap' . EXT;
+
+        if (file_exists($bootstrap_file)) {
+
+            require_once $bootstrap_file;
+
+            $class = ucfirst($action->getModule()) . '_Bootstrap';
+
+            if (!class_exists($bootstrap_file,false)) {
+            $bootstrap = new $class($this->registry, $action);
+            
+            $methods = get_class_methods($class);
+
+            foreach ($methods as $method) {
+                if ($method == '__construct') {
+                    continue;
+                } else {
+                    $bootstrap->$method();
+                }
+            }
+            }
+        }
     }
 
 }
-
 
 ?>
