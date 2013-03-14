@@ -40,9 +40,12 @@ abstract class Bootstrap {
     abstract function init();
     
     protected $plugins = array();
+    protected $registry;
+    protected $action;
 
-    public function __construct($registry,$route) {
+    public function __construct($registry,$action) {
         $this->registry = $registry;
+        $this->action = $action;
     }
     
     protected function registerPlugins(){
